@@ -32,7 +32,7 @@ rl.question('Please enter some input: ', (input) => {
   rl.close();
 });
 
-My prompt : "You are an expert python developer. Create for me a python program that checks if the input that 25is a number is prime. Do not write any explanations, just show me the code itself. Also please include unit tests that check the logic of the program using 5
+My prompt : "You are an expert python developer. Create for me a python program that checks if the input that is a number is prime. Do not write any explanations, just show me the code itself. Also please include unit tests that check the logic of the program using 5
 different inputs and expected outputs. Print a sentence like "All tests passed" or "This test has failed..."."
 Your answer : """,
         }
