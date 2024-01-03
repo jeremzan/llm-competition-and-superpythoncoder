@@ -20,13 +20,31 @@ def main():
        Output: ABC ACB CAB""",
     "a program that checks if a number is a palindrome",
     "A program that finds the kth smallest element in a given binary search tree.",
-    "A program that finds the median number of a binary search tree.",
+    """Roman numerals are represented by seven different symbols: I, V, X, L, C, D and M.
+
+        Symbol       Value
+        I             1
+        V             5
+        X             10
+        L             50
+        C             100
+        D             500
+        M             1000
+        For example, 2 is written as II in Roman numeral, just two one's added together. 12 is written as XII, which is simply X + II. The number 27 is written as XXVII, which is XX + V + II.
+
+        Roman numerals are usually written largest to smallest from left to right. However, the numeral for four is not IIII. Instead, the number four is written as IV. Because the one is before the five we subtract it making four. The same principle applies to the number nine, which is written as IX. There are six instances where subtraction is used:
+
+        I can be placed before V (5) and X (10) to make 4 and 9. 
+        X can be placed before L (50) and C (100) to make 40 and 90. 
+        C can be placed before D (500) and M (1000) to make 400 and 900.
+        Given an integer, convert it to a roman numeral.""",
 ]
 
     user_input = input("Tell me, which program would you like me to code for you? (press enter for a random program): ")
 
     if not user_input.strip():
-        user_input = random.choice(PROGRAMS_LIST)
+        random_index = random.randint(0, len(PROGRAMS_LIST) - 1)
+        user_input = PROGRAMS_LIST[random_index]
 
     error_message = ""
 
@@ -52,7 +70,8 @@ rl.question('Please enter some input: ', (input) => {
 });
 
 My prompt : "You are an expert python developer. Create for me : """ + user_input.strip() + """. Do not write any explanations, just show me the code itself. Also please include unit tests that check the logic of the program using 5
-different inputs and expected outputs. Print a sentence like "All tests passed" or "This test has failed...". Here is the error that I got when you provided an answer: """ + error_message + """. If this is empty then don't worry about it.
+different inputs and expected outputs. Print a sentence like "All tests passed" or "This test has failed...". Note that if you provided a answer that wasn't exclusively code, it might cause an error since the answer is not valid python code. IN ANY CASE, write ONLY python code, NO EXPLANATIONS NOR APOLOGIES.
+If there was an error in the previous response that you provided, here's the error: """ + error_message + """. If there is nothing after the column just ignore the last sentence about the error. 
 Your answer : """
         # Generate code using OpenAI API
         completion = client.chat.completions.create(
@@ -84,3 +103,6 @@ Your answer : """
 
 if __name__ == "__main__":
     main()
+
+
+
