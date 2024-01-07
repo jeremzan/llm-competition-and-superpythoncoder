@@ -5,7 +5,7 @@ from gpt4all import GPT4All
 
 # Replace with your Wolfram Alpha API key and the local LLM model name
 WOLFRAM_ALPHA_API_KEY = 'your_wolfram_alpha_api_key'
-LOCAL_LLM_MODEL = 'your_local_llm_model_name'
+LOCAL_LLM_MODEL = 'gpt4all-falcon-q4_0.gguf'
 
 def query_wolfram_alpha(question):
     # Implement the API call to Wolfram Alpha
@@ -22,20 +22,21 @@ def query_wolfram_alpha(question):
 
 def evaluate_similarity(question, wolfram_answer, model_answer):
     # Use a local LLM to evaluate similarity
-    local_llm = LocalLLM(LOCAL_LLM_MODEL)
+    local_llm = GPT4All(LOCAL_LLM_MODEL)
     prompt = f"Here is a question: {question}. Do not try to solve the question. Here are two answers to that question. Output on a scale of 0-1.0 how similar the two answers are. Here are the two answers: 1. {wolfram_answer} and 2. {model_answer}"
     similarity_score = local_llm.query(prompt)
     return similarity_score
 
 def query_model(model_name, question):
-    # Implement the API call to the gpt4all library
-    # Placeholder function
-    response = "Sample answer"
-    return response
+    model = GPT4All(model_name)
+    output = model.generate("""### Human:
+""" + question + """
+### Assistant:""")
+    return output
 
 def main():
     results = []
-    models = ["Model1", "Model2", "Model3"]  # Replace with actual model names
+    models = ["orca-2-7b.Q4_0.gguf", "mistral-7b-openorca.Q4_0.gguf"]  
 
     with open('questions.csv', 'r') as file:
         reader = csv.reader(file)
@@ -67,3 +68,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
