@@ -1,7 +1,7 @@
 # llm_similarity_evaluation.py
 from gpt4all import GPT4All
 
-def evaluate_similarity(question, wolfram_answer, model_answer, model_name):
+def evaluate_similarity(wolfram_answer, model_answer, model_name):
 
     judge_llm = GPT4All(model_name)
     prompt = f"""### Human:
@@ -14,13 +14,13 @@ Rate the similarity of these two answers on a scale of 0-1.0. Provide your respo
 
 
 
-# Example usage
-question = "What is the capital of France?"
-wolfram_answer = "Paris"
-model_answer = "Washington"
-model_name = "mistral-7b-openorca.Q4_0.gguf"
-result = evaluate_similarity(question, wolfram_answer, model_answer, model_name)
-print(result)
+# # Example usage
+# question = "What is the capital of France?"
+# wolfram_answer = "Paris"
+# model_answer = "Dakar"
+# model_name = "mistral-7b-openorca.Q4_0.gguf"
+# result = evaluate_similarity(wolfram_answer, model_answer, model_name)
+# print(result)
 
 
 
