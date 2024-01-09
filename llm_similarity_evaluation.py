@@ -5,7 +5,7 @@ def evaluate_similarity(wolfram_answer, model_answer, model_name):
 
     judge_llm = GPT4All(model_name)
     prompt = f"""### Human:
-Rate the similarity of these two answers on a scale of 0-1.0. Provide your response as a single number, with no additional text. For example, if the answers are almost identical, reply '0.9'. If they are entirely different, reply '0.1'. Here are the two answers: 1. {wolfram_answer} and 2. {model_answer}.
+Evaluate the similarity of the following two answers on a scale from 0 to 1.0, where 0 means completely different and 1.0 means exactly the same. Use a wide range of the scale and be precise. For example, for slightly similar answers, you might reply '0.3', for moderately similar answers '0.5', and for highly similar but not identical answers '0.8'. Here are the two answers: 1. {wolfram_answer} and 2. {model_answer}. Provide only the similarity score as a number without any additional text.
 ### Assistant:"""
         
     similarity_score = judge_llm.generate(prompt)
@@ -14,21 +14,7 @@ Rate the similarity of these two answers on a scale of 0-1.0. Provide your respo
 
 
 
-# # Example usage
-# question = "What is the capital of France?"
-# wolfram_answer = "Paris"
-# model_answer = "Dakar"
-# model_name = "mistral-7b-openorca.Q4_0.gguf"
-# result = evaluate_similarity(wolfram_answer, model_answer, model_name)
-# print(result)
-
-
 
 # """### Human:
-# Here are two answers to a question. Output on a scale of 0-1.0 how similar the two answers are. Here are the two answers: 1. {wolfram_answer} and 2. {model_answer}. Answer ONLY with a number between 0 and 1.0. NO ADDITIONAL TEXT. 
-# Here are some examples of valid answers: 
-# My prompt : Here are two answers to a question. Output on a scale of 0-1.0 how similar the two answers are. Here are the two answers: 1. boat and 2. ship. Answer only with a number between 0 and 1.0. 
-# Your answer : 0.9.
-# My prompt : Here are two answers to a question. Output on a scale of 0-1.0 how similar the two answers are. Here are the two answers: 1. cheetah and 2. chips. Answer only with a number between 0 and 1.0.
-# Your answer : 0.1.
+# Rate the similarity of these two answers on a scale of 0-1.0. Provide your response as a single number, with no additional text. For example, if the answers are almost identical, reply '0.9'. If they are entirely different, reply '0.1'. Here are the two answers: 1. {wolfram_answer} and 2. {model_answer}.
 # ### Assistant:"""

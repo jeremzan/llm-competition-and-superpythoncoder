@@ -9,12 +9,5 @@ def query_model(model_name, question):
     return output
 
 
-# # Example usage
-# question = "What is the capital of France?"
-# model_name = "mistral-7b-openorca.Q4_0.gguf"
-# result = query_model(model_name, question)
-# print(result)
-
-
 
 

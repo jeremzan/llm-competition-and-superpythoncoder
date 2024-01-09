@@ -30,11 +30,3 @@ def query_wolfram_alpha(question, api_key):
     else:
         return None
 
-
-# # Example usage
-# question = "What is the speed of a cheetah?"
-# load_dotenv()
-# api_key = os.environ.get("WOLFRAM_ALPHA_API_KEY")
-
-# result = query_wolfram_alpha(question, api_key)
-# print(result)

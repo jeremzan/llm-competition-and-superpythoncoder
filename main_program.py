@@ -16,7 +16,7 @@ def main():
     results = []
     models = ["orca-2-7b.Q4_0.gguf", "mistral-7b-openorca.Q4_0.gguf"]
     ratings_sum = {model: 0 for model in models}
-    lowest_rating = {model: (None, 1.0) for model in models}  # (question, rating)
+    lowest_rating = {model: (None, None, 1.0) for model in models}  # (question, answer, rating)
     questions_answered = 0
 
     with open('General_Knowledge_Questions.csv', 'r') as file:
@@ -28,7 +28,7 @@ def main():
             print(wolfram_answer)
             print()
             if wolfram_answer:
-                questions_answered += 1
+                
                 for model in models:
                     start_time = time.time()
                     model_answer = query_model(model, question)
@@ -36,13 +36,13 @@ def main():
                     time_taken = (end_time - start_time) * 1000  # Convert to milliseconds
                     print("Log : Got the model answer, checking for similarity with wolfram...")
                     print()
-                    similarity = evaluate_similarity(wolfram_answer, model_answer, JUDGE_LLM_MODEL)
+                    similarity = float(evaluate_similarity(wolfram_answer, model_answer, JUDGE_LLM_MODEL))
                     print(similarity)
                     print()
-                    ratings_sum[model] += float(similarity)
+                    ratings_sum[model] += similarity
 
-                    if float(similarity) < lowest_rating[model][1]:
-                        lowest_rating[model] = (question, float(similarity))
+                    if similarity < lowest_rating[model][2]:  # Compare with the rating part of the tuple
+                        lowest_rating[model] = (question, model_answer, similarity)  # Store question, answer, and rating
 
                     results.append({
                         "Question": question,
@@ -54,22 +54,29 @@ def main():
                     print(results[-1])
                     print()
 
+                questions_answered += 1
+
             # # Limit to the first 5 rows for testing
-            # if questions_answered >= 5:
-            #     break
+            if questions_answered >= 1:
+                break
 
     # Print or process the results
-    for result in results:
-        print(result)
+    # for result in results:
+    #     print(result)
 
     # Print summary statistics
     print(f"\nNumber of questions answered: {questions_answered}")
+
+    # First loop to print average ratings for all models
     for model in models:
         avg_rating = ratings_sum[model] / questions_answered if questions_answered > 0 else 0
         print(f"Average answer rating of {model}: {avg_rating:.2f}")
-        lowest_question, lowest_rate = lowest_rating[model]
+    
+    # Second loop to print the lowest rated question and answer for all models
+    for model in models:
+        lowest_question, lowest_answer, lowest_rate = lowest_rating[model]
         if lowest_question:
-            print(f"Lowest rating question and answer of {model}: {lowest_question} (Rating: {lowest_rate:.2f})")
+            print(f"Lowest rating question and answer of {model}: {lowest_question} {lowest_answer}")
 
 if __name__ == "__main__":
     start_time_ = time.time()
@@ -80,3 +87,10 @@ if __name__ == "__main__":
     minutes, seconds = divmod(rem, 60)
 
     print("Total time taken: {:0>2}:{:0>2}:{:05.2f}".format(int(hours),int(minutes),seconds))
+
+
+    
+
+    
+
+
