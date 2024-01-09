@@ -25,6 +25,7 @@ def main():
         for row in reader:
             _, question = row
             wolfram_answer = query_wolfram_alpha(question, WOLFRAM_ALPHA_API_KEY)
+            print()
             print(wolfram_answer)
             print()
             if wolfram_answer:
@@ -34,11 +35,9 @@ def main():
                     model_answer = query_model(model, question)
                     end_time = time.time()
                     time_taken = (end_time - start_time) * 1000  # Convert to milliseconds
-                    print("Log : Got the model answer, checking for similarity with wolfram...")
+                    print("Got the " + model + " answer, checking for similarity with wolfram...")
                     print()
                     similarity = float(evaluate_similarity(wolfram_answer, model_answer, JUDGE_LLM_MODEL))
-                    print(similarity)
-                    print()
                     ratings_sum[model] += similarity
 
                     if similarity < lowest_rating[model][2]:  # Compare with the rating part of the tuple
@@ -51,13 +50,13 @@ def main():
                         "TimeInMillisecondsToGetAnswer": float(time_taken),
                         "Correctness": similarity
                     })
-                    print(results[-1])
+                    print(f"Answer : {results[-1]['Answer']}, Correctness : {results[-1]['Correctness']}")
                     print()
 
                 questions_answered += 1
 
             # # Limit to the first 5 rows for testing
-            if questions_answered >= 1:
+            if questions_answered >= 5:
                 break
 
     # Print or process the results

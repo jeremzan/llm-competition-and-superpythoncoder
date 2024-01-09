@@ -12,7 +12,6 @@ def query_wolfram_alpha(question, api_key):
     # Check if the answer is already in Redis cache
     cached_answer = redis_client.get(question)
     if cached_answer:
-        print("cached")
         return cached_answer
 
     # If not in cache, call Wolfram Alpha API
